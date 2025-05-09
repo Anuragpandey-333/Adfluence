@@ -1,36 +1,25 @@
-// App.jsx
-import React, { useState } from 'react';
-import WelcomePage from './pages/WelcomePage';
-import AuthPage from './pages/AuthPage';
-import HomePage from './pages/HomePage';
-// import { useAuth } from './hooks/useAuth';
+import React from 'react'
+import './App.css'
+import {BrowserRouter, Routes, Route } from 'react-router-dom'
+import Landing from './components/landing'
+import LoginPage from './components/login'
+import Home from './components/home'
+import Help from './components/help'
 
-const App = () => {
-  const [currentPage, setCurrentPage] = useState('welcome');
-  // const { isAuthenticated, login } = useAuth();
-
-  // Page navigation handlers
-  const navigateToAuth = () => setCurrentPage('auth');
-  const navigateToHome = () => {
-    // login();
-    setCurrentPage('home');
-  };
+function App() {
 
   return (
-    <div className="min-h-screen flex flex-col">
-      {currentPage === 'welcome' && (
-        <WelcomePage onGetStarted={navigateToAuth} />
-      )}
+      <div>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Landing />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/help" element={<Help />} />
+          </Routes>
+        </BrowserRouter>
+      </div>
+  )
+}
 
-      {currentPage === 'auth' && (
-        <AuthPage onLogin={navigateToHome} />
-      )}
-
-      {currentPage === 'home' && (
-        <HomePage />
-      )}
-    </div>
-  );
-};
-
-export default App;
+export default App
