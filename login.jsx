@@ -1,25 +1,26 @@
-'use client';
-import React, { useState } from 'react';
+import React,{useState} from 'react'
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
-    if (email.trim() && password.trim()) {
-      alert('Logged in successfully (mock)');
-      // Add your actual authentication logic here
+    if (email=='anurag@gmail.com' && password=='anuragpandey@123') {
+      alert('Logged in successfully ');
+      navigate('/home');
     } else {
       alert('Please fill in all fields.');
     }
   };
 
   return (
-    <div className="bg-gradient-to-r from-blue-500 to-indigo-600 min-h-screen flex items-center justify-center">
+    <div className="bg-white to-indigo-600 min-h-screen flex items-center justify-center">
       <div className="bg-white shadow-lg rounded-2xl p-8 w-full max-w-md">
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
-          Welcome Back to MySocial
+          Welcome Back to ADFLUENCE
         </h2>
 
         <form onSubmit={handleLogin} className="space-y-5">
@@ -29,8 +30,8 @@ const Login = () => {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full mt-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-              placeholder="you@example.com"
+              className="w-full mt-1 px-4 py-2 border rounded-lg"
+              placeholder="Enter your Email"
               required
             />
           </div>
@@ -41,8 +42,8 @@ const Login = () => {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full mt-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-              placeholder="••••••••"
+              className="w-full mt-1 px-4 py-2 border rounded-lg "
+              placeholder="Enter your Password"
               required
             />
           </div>
@@ -64,16 +65,6 @@ const Login = () => {
             Log In
           </button>
         </form>
-
-        <div className="mt-6 text-center text-sm text-gray-500">Or login with</div>
-        <div className="flex justify-center space-x-4 mt-4">
-          <button className="bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-600">
-            Google
-          </button>
-          <button className="bg-blue-800 text-white px-4 py-2 rounded-full hover:bg-blue-900">
-            Facebook
-          </button>
-        </div>
 
         <p className="mt-6 text-center text-sm text-gray-600">
           Don't have an account?{' '}
