@@ -87,6 +87,7 @@ const Home = () => {
 
       <header className="bg-indigo-600 text-white py-12 text-center mt-16">
         <h2 className="text-4xl font-bold mb-2">Welcome to Adfluence</h2>
+        <h2>Connect Socially 😁</h2>
         <p className="text-md">Connect with creatives and influencers around the world 🌍</p>
         <p className="text-md">TRAVEL      SPORTS       NATURE </p>
       </header>
