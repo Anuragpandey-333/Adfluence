@@ -99,25 +99,20 @@ const Home = () => {
       setError(null);
 
       const queries = searchTerm ? [searchTerm] : ['nature', 'travel', 'sports'];
-      const allPhotos = [...uploadedImages];
+      const pexelsPhotos = [];
 
       for (const query of queries) {
         const response = await fetch(
           `https://api.pexels.com/v1/search?query=${query}&per_page=6&page=1`,
           {
-            headers: {
-              Authorization: PEXELS_API_KEY
-            }
+            headers: { Authorization: PEXELS_API_KEY }
           }
         );
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
         const data = await response.json();
-
-        const formattedPhotos = data.photos.map(photo => ({
+        const formatted = data.photos.map(photo => ({
           id: `pexels-${photo.id}`,
           author: photo.photographer,
           image: photo.src.landscape,
@@ -126,16 +121,21 @@ const Home = () => {
           featured: false
         }));
 
-        allPhotos.push(...formattedPhotos);
+        pexelsPhotos.push(...formatted);
       }
 
-      const uniquePhotos = allPhotos.filter((photo, index, self) =>
-        index === self.findIndex(p => p.id === photo.id)
-      ).slice(0, 30);
+      // Always keep Cloudinary photos on top
+      const combined = [...uploadedImages, ...pexelsPhotos];
+
+      // Remove duplicates
+      const uniquePhotos = combined.filter(
+        (photo, index, self) =>
+          index === self.findIndex(p => p.id === photo.id)
+      );
 
       setPhotos(uniquePhotos);
-    } catch (err) {
-      console.error('Error fetching photos:', err);
+    } catch (error) {
+      console.error('Error fetching photos:', error);
       setError('Could not fetch from Pexels. Showing Cloudinary only.');
       setPhotos(uploadedImages);
     } finally {
@@ -143,13 +143,8 @@ const Home = () => {
     }
   };
 
-  // FIXED useEffect: run once on mount only
   useEffect(() => {
-    const loadPhotos = async () => {
-      await fetchPhotos();
-    };
-
-    loadPhotos();
+    fetchPhotos();
   }, []);
 
   const filteredPhotos = topic === 'all'
@@ -168,26 +163,18 @@ const Home = () => {
 
   const handleTopicChange = (newTopic) => {
     setTopic(newTopic);
-    if (newTopic !== 'all') {
-      fetchPhotos(newTopic);
-    } else {
-      fetchPhotos('');
-    }
-  };
-
-  const refreshPhotos = () => {
-    fetchPhotos(topic === 'all' ? '' : topic);
+    fetchPhotos(newTopic === 'all' ? '' : newTopic);
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <nav className="fixed w-full top-0 left-0 z-50 bg-white shadow-md flex justify-between items-center px-6 py-4">
-        <h1 className="text-xl md:text-2xl font-bold text-indigo-600">Adfluence</h1>
+    <div className="min-h-screen bg-blue-50">
+      <nav className="fixed w-full top-0 left-0 z-50 bg-white shadow-sm flex justify-between items-center px-6 py-4 border-b">
+        <h1 className="text-xl md:text-2xl font-bold text-sky-500">Adfluence</h1>
         <div className="space-x-4 text-sm md:text-base">
-          <a href="#" className="text-gray-700 hover:text-indigo-600 font-medium">Home</a>
-          <a href="#" className="text-gray-700 hover:text-indigo-600 font-medium">Messages</a>
-          <a href="#" className="text-gray-700 hover:text-indigo-600 font-medium">Profile</a>
-          <NavLink to="/help" className="bg-indigo-100 hover:bg-indigo-200 text-indigo-700 px-3 py-1 rounded-md transition">
+          <a href="#" className="text-gray-700 hover:text-sky-500">Home</a>
+          <a href="#" className="text-gray-700 hover:text-sky-500">Messages</a>
+          <a href="#" className="text-gray-700 hover:text-sky-500">Profile</a>
+          <NavLink to="/help" className="bg-sky-100 hover:bg-sky-200 text-sky-600 px-3 py-1 rounded-md transition">
             Help
           </NavLink>
           <NavLink to="/login" className="bg-red-100 hover:bg-red-200 text-red-600 px-3 py-1 rounded-md transition">
@@ -196,13 +183,13 @@ const Home = () => {
         </div>
       </nav>
 
-      <header className="bg-indigo-600 text-white py-12 text-center mt-16">
+      <header className="bg-sky-500 text-white py-12 text-center mt-16">
         <h2 className="text-4xl font-bold mb-2">Welcome to Adfluence</h2>
         <p className="text-md">Explore curated and live photos of travel, sports, and nature 🌍</p>
       </header>
 
       <main className="max-w-2xl mx-auto px-4 py-10">
-        <div className="flex justify-center space-x-3 mb-6">
+        <div className="flex justify-center space-x-3 mb-6 flex-wrap">
           {['All', 'Travel', 'Sports', 'Nature'].map((label) => {
             const value = label.toLowerCase();
             return (
@@ -211,8 +198,8 @@ const Home = () => {
                 onClick={() => handleTopicChange(value)}
                 className={`px-4 py-1 rounded-full text-sm font-medium border transition ${
                   topic === value
-                    ? 'bg-indigo-600 text-white'
-                    : 'bg-white text-gray-700 border-gray-300 hover:bg-indigo-100'
+                    ? 'bg-sky-500 text-white'
+                    : 'bg-white text-gray-700 border-gray-300 hover:bg-sky-100'
                 }`}
               >
                 {label}
@@ -220,7 +207,7 @@ const Home = () => {
             );
           })}
           <button
-            onClick={refreshPhotos}
+            onClick={() => fetchPhotos(topic === 'all' ? '' : topic)}
             className="px-4 py-1 rounded-full text-sm font-medium border bg-green-100 text-green-700 border-green-300 hover:bg-green-200 transition"
           >
             🔄 Refresh
@@ -229,22 +216,22 @@ const Home = () => {
 
         {loading && (
           <div className="text-center py-8">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600 mx-auto"></div>
-            <p className="text-gray-600 mt-2">Loading amazing photos...</p>
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-sky-500 mx-auto"></div>
+            <p className="text-gray-500 mt-2">Loading amazing photos...</p>
           </div>
         )}
 
         {error && (
-          <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
-            <p className="text-red-700">{error}</p>
+          <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6 text-sm text-red-600">
+            {error}
           </div>
         )}
 
         <div className="flex flex-col space-y-8">
           {filteredPhotos.map((photo) => (
-            <div key={photo.id} className="bg-white rounded-lg shadow-md overflow-hidden">
+            <div key={photo.id} className="bg-white rounded-xl shadow-sm overflow-hidden border">
               {photo.featured && (
-                <div className="bg-gradient-to-r from-indigo-500 to-purple-500 text-white px-3 py-1 text-xs font-medium">
+                <div className="bg-sky-400 text-white px-3 py-1 text-xs font-medium">
                   ⭐ Featured
                 </div>
               )}
@@ -253,39 +240,33 @@ const Home = () => {
                 alt={photo.description}
                 className="w-full h-80 object-cover transition-transform duration-300 hover:scale-105"
                 onError={(e) => {
-                  e.target.src = 'https://via.placeholder.com/800x600/4f46e5/ffffff?text=Image+Not+Found';
+                  e.target.src = 'https://via.placeholder.com/800x600/38bdf8/ffffff?text=Image+Not+Found';
                 }}
               />
               <div className="p-4">
-                <div className="flex justify-between items-start mb-2">
-                  <h3 className="text-lg font-semibold">{photo.author}</h3>
-                </div>
+                <h3 className="text-lg font-semibold text-gray-800">{photo.author}</h3>
                 <p className="text-sm text-gray-600 mb-3">{photo.description}</p>
-                <div className="flex justify-between items-center">
-                  <button
-                    onClick={() => toggleLike(photo.id)}
-                    className={`flex items-center ${
-                      likedPhotos[photo.id] ? 'text-red-500' : 'text-gray-500'
-                    } hover:text-red-600 transition`}
-                  >
-                    ❤️ <span className="ml-1">
-                      {likedPhotos[photo.id] ? 'Liked' : 'Like'}
-                    </span>
-                  </button>
-                </div>
+                <button
+                  onClick={() => toggleLike(photo.id)}
+                  className={`flex items-center ${
+                    likedPhotos[photo.id] ? 'text-red-500' : 'text-gray-400'
+                  } hover:text-red-600 transition text-sm`}
+                >
+                  ❤️ <span className="ml-1">{likedPhotos[photo.id] ? 'Liked' : 'Like'}</span>
+                </button>
               </div>
             </div>
           ))}
         </div>
 
-        {filteredPhotos.length === 0 && !loading && (
-          <div className="text-center py-8">
-            <p className="text-gray-600">No photos found for "{topic}". Try a different category!</p>
+        {!loading && filteredPhotos.length === 0 && (
+          <div className="text-center py-8 text-gray-500">
+            No photos found for "{topic}". Try a different category!
           </div>
         )}
       </main>
 
-      <footer className="bg-white text-center py-6 text-gray-400 text-sm">
+      <footer className="bg-white text-center py-6 text-gray-400 text-sm border-t">
         © 2025 Adfluence. Connect. Inspire. Grow.
       </footer>
     </div>
