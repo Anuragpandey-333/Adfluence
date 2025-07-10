@@ -15,7 +15,7 @@ const Home = () => {
       id: 'cloudinary-1',
       author: 'Cloudinary',
       image: 'https://res.cloudinary.com/dj4xzdd0h/image/upload/v1751784793/6_photo_sivwr9.avif',
-      description: 'Cloudinary uploaded image #1',
+      description: 'Tranquil forest landscape – perfect escape into nature.',
       category: 'nature',
       featured: true
     },
@@ -23,7 +23,7 @@ const Home = () => {
       id: 'cloudinary-2',
       author: 'Cloudinary',
       image: 'https://res.cloudinary.com/dj4xzdd0h/image/upload/v1751784793/2photo_e2btzj.jpg',
-      description: 'Cloudinary uploaded image #2',
+      description: 'Historic streets with local charm – explore the world.',
       category: 'travel',
       featured: true
     },
@@ -31,7 +31,7 @@ const Home = () => {
       id: 'cloudinary-3',
       author: 'Cloudinary',
       image: 'https://res.cloudinary.com/dj4xzdd0h/image/upload/v1751784793/4photo_pfwryf.jpg',
-      description: 'Cloudinary uploaded image #3',
+      description: 'Athletes in action – the thrill of sports captured.',
       category: 'sports',
       featured: true
     },
@@ -39,7 +39,7 @@ const Home = () => {
       id: 'cloudinary-4',
       author: 'Cloudinary',
       image: 'https://res.cloudinary.com/dj4xzdd0h/image/upload/v1751784793/3_photo_igqaeu.jpg',
-      description: 'Cloudinary uploaded image #4',
+      description: 'Early morning mist in a peaceful natural setting.',
       category: 'nature',
       featured: true
     },
@@ -47,7 +47,7 @@ const Home = () => {
       id: 'cloudinary-5',
       author: 'Cloudinary',
       image: 'https://res.cloudinary.com/dj4xzdd0h/image/upload/v1751784792/1photo_qz11ft.jpg',
-      description: 'Cloudinary uploaded image #5',
+      description: 'Golden hour by the sea – a perfect travel memory.',
       category: 'travel',
       featured: true
     },
@@ -55,7 +55,7 @@ const Home = () => {
       id: 'cloudinary-6',
       author: 'Cloudinary',
       image: 'https://res.cloudinary.com/dj4xzdd0h/image/upload/v1751784771/great-wall-of-china-most-visited-tourist-attraction_ipwq9f.png',
-      description: 'Cloudinary uploaded image #6',
+      description: 'The Great Wall of China – history carved in stone.',
       category: 'travel',
       featured: true
     },
@@ -63,7 +63,7 @@ const Home = () => {
       id: 'cloudinary-7',
       author: 'Cloudinary',
       image: 'https://res.cloudinary.com/dj4xzdd0h/image/upload/v1751784770/Most_Popular_Sports_By_Country_ij4rtp.webp',
-      description: 'Cloudinary uploaded image #7',
+      description: 'A world united by sports – most popular games globally.',
       category: 'sports',
       featured: true
     },
@@ -71,7 +71,7 @@ const Home = () => {
       id: 'cloudinary-8',
       author: 'Cloudinary',
       image: 'https://res.cloudinary.com/dj4xzdd0h/image/upload/v1751784766/pexels-photo-2834917_nizxdy.jpg',
-      description: 'Cloudinary uploaded image #8',
+      description: 'Lush greenery beside calm waters – pure natural beauty.',
       category: 'nature',
       featured: true
     },
@@ -79,7 +79,7 @@ const Home = () => {
       id: 'cloudinary-9',
       author: 'Cloudinary',
       image: 'https://res.cloudinary.com/dj4xzdd0h/image/upload/v1751784765/INDONESIA_tliqyn.jpg',
-      description: 'Cloudinary uploaded image #9',
+      description: 'Vibrant Indonesian culture – a journey of colors.',
       category: 'travel',
       featured: true
     },
@@ -87,7 +87,7 @@ const Home = () => {
       id: 'cloudinary-10',
       author: 'Cloudinary',
       image: 'https://res.cloudinary.com/dj4xzdd0h/image/upload/v1751784765/p_wtiakh.webp',
-      description: 'Cloudinary uploaded image #10',
+      description: 'Excitement of the game – sports spirit in motion.',
       category: 'sports',
       featured: true
     }
@@ -124,10 +124,8 @@ const Home = () => {
         pexelsPhotos.push(...formatted);
       }
 
-      // Always keep Cloudinary photos on top
       const combined = [...uploadedImages, ...pexelsPhotos];
 
-      // Remove duplicates
       const uniquePhotos = combined.filter(
         (photo, index, self) =>
           index === self.findIndex(p => p.id === photo.id)
@@ -274,3 +272,4 @@ const Home = () => {
 };
 
 export default Home;
+

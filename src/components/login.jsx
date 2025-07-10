@@ -16,7 +16,6 @@ const Login = () => {
       alert('Invalid credentials. Please try again.');
     }
   };
-
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
       <div className="bg-white bg-opacity-20 backdrop-blur-md shadow-2xl rounded-3xl px-10 py-12 w-full max-w-md border border-white border-opacity-30">
