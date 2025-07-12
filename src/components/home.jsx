@@ -7,6 +7,8 @@ const Home = () => {
   const [photos, setPhotos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [comments, setComments] = useState({});
+  const [newComment, setNewComment] = useState({});
 
   const PEXELS_API_KEY = 'u7Ks6f46u39aTV7Z3LYl0HoyRnQIEcIzoR6V8ErfxHzPgcvJnl4qruAv';
 
@@ -132,6 +134,15 @@ const Home = () => {
       );
 
       setPhotos(uniquePhotos);
+
+      const initialLikes = {};
+      uniquePhotos.forEach((photo) => {
+        initialLikes[photo.id] = {
+          liked: false,
+          count: Math.floor(Math.random() * 500) + 20
+        };
+      });
+      setLikedPhotos(initialLikes);
     } catch (error) {
       console.error('Error fetching photos:', error);
       setError('Could not fetch from Pexels. Showing Cloudinary only.');
@@ -153,10 +164,16 @@ const Home = () => {
       );
 
   const toggleLike = (id) => {
-    setLikedPhotos(prev => ({
-      ...prev,
-      [id]: !prev[id]
-    }));
+    setLikedPhotos((prev) => {
+      const current = prev[id];
+      return {
+        ...prev,
+        [id]: {
+          liked: !current.liked,
+          count: current.count + (current.liked ? -1 : 1),
+        }
+      };
+    });
   };
 
   const handleTopicChange = (newTopic) => {
@@ -169,15 +186,11 @@ const Home = () => {
       <nav className="fixed w-full top-0 left-0 z-50 bg-white shadow-sm flex justify-between items-center px-6 py-4 border-b">
         <h1 className="text-xl md:text-2xl font-bold text-sky-500">Adfluence</h1>
         <div className="space-x-4 text-sm md:text-base">
-          <a href="#" className="text-gray-700 hover:text-sky-500">Home</a>
-          <a href="#" className="text-gray-700 hover:text-sky-500">Messages</a>
-          <a href="#" className="text-gray-700 hover:text-sky-500">Profile</a>
-          <NavLink to="/help" className="bg-sky-100 hover:bg-sky-200 text-sky-600 px-3 py-1 rounded-md transition">
-            Help
-          </NavLink>
-          <NavLink to="/login" className="bg-red-100 hover:bg-red-200 text-red-600 px-3 py-1 rounded-md transition">
-            Logout
-          </NavLink>
+          <NavLink to="/home" className="text-sky-500 font-semibold">Home</NavLink>
+          <NavLink to="#" className="text-gray-700 hover:text-sky-500">Messages</NavLink>
+          <NavLink to="/profile" className="text-gray-700 hover:text-sky-500">Profile</NavLink>
+          <NavLink to="/help" className="bg-sky-100 hover:bg-sky-200 text-sky-600 px-3 py-1 rounded-md transition">Help</NavLink>
+          <NavLink to="/login" className="bg-red-100 hover:bg-red-200 text-red-600 px-3 py-1 rounded-md transition">Logout</NavLink>
         </div>
       </nav>
 
@@ -229,9 +242,7 @@ const Home = () => {
           {filteredPhotos.map((photo) => (
             <div key={photo.id} className="bg-white rounded-xl shadow-sm overflow-hidden border">
               {photo.featured && (
-                <div className="bg-sky-400 text-white px-3 py-1 text-xs font-medium">
-                  ⭐ Featured
-                </div>
+                <div className="bg-sky-400 text-white px-3 py-1 text-xs font-medium">⭐ Featured</div>
               )}
               <img
                 src={photo.image}
@@ -247,11 +258,52 @@ const Home = () => {
                 <button
                   onClick={() => toggleLike(photo.id)}
                   className={`flex items-center ${
-                    likedPhotos[photo.id] ? 'text-red-500' : 'text-gray-400'
+                    likedPhotos[photo.id]?.liked ? 'text-red-500' : 'text-gray-400'
                   } hover:text-red-600 transition text-sm`}
                 >
-                  ❤️ <span className="ml-1">{likedPhotos[photo.id] ? 'Liked' : 'Like'}</span>
+                  ❤️ <span className="ml-1">
+                    {likedPhotos[photo.id]?.liked ? 'Liked' : 'Like'} · {likedPhotos[photo.id]?.count || 0}
+                  </span>
                 </button>
+
+                {/* Comment Section */}
+                <div className="mt-4">
+                  <h4 className="text-sm font-medium text-gray-700 mb-1">Comments</h4>
+                  <div className="space-y-2 mb-2">
+                    {(comments[photo.id] || []).map((comment, idx) => (
+                      <p key={idx} className="text-xs text-gray-600">💬 {comment}</p>
+                    ))}
+                  </div>
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      if (!newComment[photo.id]) return;
+
+                      setComments((prev) => ({
+                        ...prev,
+                        [photo.id]: [...(prev[photo.id] || []), newComment[photo.id]]
+                      }));
+
+                      setNewComment((prev) => ({
+                        ...prev,
+                        [photo.id]: ''
+                      }));
+                    }}
+                  >
+                    <input
+                      type="text"
+                      placeholder="Add a comment..."
+                      value={newComment[photo.id] || ''}
+                      onChange={(e) =>
+                        setNewComment((prev) => ({
+                          ...prev,
+                          [photo.id]: e.target.value
+                        }))
+                      }
+                      className="w-full border border-gray-300 rounded-md px-3 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-sky-400"
+                    />
+                  </form>
+                </div>
               </div>
             </div>
           ))}
@@ -272,4 +324,3 @@ const Home = () => {
 };
 
 export default Home;
-
