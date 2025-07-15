@@ -186,11 +186,42 @@ const Home = () => {
       <nav className="fixed w-full top-0 left-0 z-50 bg-white shadow-sm flex justify-between items-center px-6 py-4 border-b">
         <h1 className="text-xl md:text-2xl font-bold text-sky-500">Adfluence</h1>
         <div className="space-x-4 text-sm md:text-base">
-          <NavLink to="/home" className="text-sky-500 font-semibold">Home</NavLink>
-          <NavLink to="#" className="text-gray-700 hover:text-sky-500">Messages</NavLink>
-          <NavLink to="/profile" className="text-gray-700 hover:text-sky-500">Profile</NavLink>
-          <NavLink to="/help" className="bg-sky-100 hover:bg-sky-200 text-sky-600 px-3 py-1 rounded-md transition">Help</NavLink>
-          <NavLink to="/login" className="bg-red-100 hover:bg-red-200 text-red-600 px-3 py-1 rounded-md transition">Logout</NavLink>
+          <NavLink 
+            to="/home" 
+            className={({ isActive }) => 
+              isActive ? "text-sky-500 font-semibold" : "text-gray-700 hover:text-sky-500"
+            }
+          >
+            Home
+          </NavLink>
+          <NavLink 
+            to="/messages" 
+            className={({ isActive }) => 
+              isActive ? "text-sky-500 font-semibold" : "text-gray-700 hover:text-sky-500"
+            }
+          >
+            Messages
+          </NavLink>
+          <NavLink 
+            to="/profile" 
+            className={({ isActive }) => 
+              isActive ? "text-sky-500 font-semibold" : "text-gray-700 hover:text-sky-500"
+            }
+          >
+            Profile
+          </NavLink>
+          <NavLink 
+            to="/help" 
+            className="bg-sky-100 hover:bg-sky-200 text-sky-600 px-3 py-1 rounded-md transition"
+          >
+            Help
+          </NavLink>
+          <NavLink 
+            to="/login" 
+            className="bg-red-100 hover:bg-red-200 text-red-600 px-3 py-1 rounded-md transition"
+          >
+            Logout
+          </NavLink>
         </div>
       </nav>
 
