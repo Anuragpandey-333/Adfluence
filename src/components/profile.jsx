@@ -80,72 +80,62 @@ const Profile = () => {
 
   return (
     <div className="min-h-screen bg-blue-50">
-      {/* Navigation */}
-      <nav className="fixed w-full top-0 left-0 z-50 bg-white shadow-sm flex justify-between items-center px-6 py-4 border-b">
+      {/* Navbar */}
+      <nav className="fixed w-full top-0 left-0 z-50 bg-white shadow-sm flex flex-wrap justify-between items-center px-4 py-3 md:px-6 border-b">
         <h1 className="text-xl md:text-2xl font-bold text-sky-500">Adfluence</h1>
-        <div className="space-x-4 text-sm md:text-base">
+        <div className="space-x-2 md:space-x-4 text-sm md:text-base flex flex-wrap">
           <NavLink to="/home" className="text-gray-700 hover:text-sky-500">Home</NavLink>
           <a href="#" className="text-gray-700 hover:text-sky-500">Messages</a>
           <a href="#" className="text-sky-500 font-medium">Profile</a>
-          <NavLink to="/help" className="bg-sky-100 hover:bg-sky-200 text-sky-600 px-3 py-1 rounded-md transition">
+          <NavLink to="/help" className="bg-sky-100 hover:bg-sky-200 text-sky-600 px-2 py-1 rounded-md transition">
             Help
           </NavLink>
-          <NavLink to="/login" className="bg-red-100 hover:bg-red-200 text-red-600 px-3 py-1 rounded-md transition">
+          <NavLink to="/login" className="bg-red-100 hover:bg-red-200 text-red-600 px-2 py-1 rounded-md transition">
             Logout
           </NavLink>
         </div>
       </nav>
 
       {/* Profile Header */}
-      <div className="bg-gradient-to-r from-sky-400 to-blue-500 pt-20 pb-12">
+      <div className="bg-gradient-to-r from-sky-400 to-blue-500 pt-24 pb-10">
         <div className="max-w-4xl mx-auto px-4">
-          <div className="bg-white rounded-xl shadow-lg p-8">
-            <div className="flex flex-col md:flex-row items-center md:items-start space-y-6 md:space-y-0 md:space-x-8">
+          <div className="bg-white rounded-xl shadow-lg p-6 md:p-8">
+            <div className="flex flex-col-reverse md:flex-row items-center md:items-start space-y-6 md:space-y-0 md:space-x-8">
               {/* Avatar */}
               <div className="relative">
                 <img
                   src={profile.avatar}
                   alt="Profile"
-                  className="w-32 h-32 rounded-full object-cover border-4 border-white shadow-lg"
+                  className="w-28 h-28 md:w-32 md:h-32 rounded-full object-cover border-4 border-white shadow-lg"
                 />
-                <div className="absolute bottom-0 right-0 bg-green-500 w-6 h-6 rounded-full border-2 border-white"></div>
+                <div className="absolute bottom-0 right-0 bg-green-500 w-5 h-5 md:w-6 md:h-6 rounded-full border-2 border-white"></div>
               </div>
 
               {/* Profile Info */}
-              <div className="flex-1 text-center md:text-left">
+              <div className="flex-1 text-center md:text-left w-full">
                 {!isEditing ? (
                   <>
-                    <h1 className="text-3xl font-bold text-gray-800 mb-1">{profile.name}</h1>
+                    <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-1">{profile.name}</h1>
                     <p className="text-sky-600 font-medium mb-2">{profile.username}</p>
-                    <p className="text-gray-600 mb-3 max-w-md">{profile.bio}</p>
-                    <div className="flex flex-wrap justify-center md:justify-start gap-4 text-sm text-gray-500 mb-4">
-                      <span className="flex items-center">
-                        📍 {profile.location}
-                      </span>
-                      <span className="flex items-center">
-                        🌐 {profile.website}
-                      </span>
-                      <span className="flex items-center">
-                        📅 Joined {profile.joinDate}
-                      </span>
+                    <p className="text-gray-600 mb-3 max-w-md mx-auto md:mx-0">{profile.bio}</p>
+                    <div className="flex flex-wrap justify-center md:justify-start gap-3 text-sm text-gray-500 mb-4">
+                      <span>📍 {profile.location}</span>
+                      <span>🌐 {profile.website}</span>
+                      <span>📅 Joined {profile.joinDate}</span>
                     </div>
                   </>
                 ) : (
-                  <div className="space-y-4">
-                    <input
-                      type="text"
-                      value={tempProfile.name}
-                      onChange={(e) => handleInputChange('name', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500"
-                      placeholder="Full Name"
-                    />
-                    <input
-                      type="text"
-                      value={tempProfile.username}
-                      onChange={(e) => handleInputChange('username', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500"
-                      placeholder="Username"
-                    />
+                  <div className="space-y-3">
+                    {['name', 'username', 'location', 'website'].map(field => (
+                      <input
+                        key={field}
+                        type="text"
+                        value={tempProfile[field]}
+                        onChange={(e) => handleInputChange(field, e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500"
+                        placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
+                      />
+                    ))}
                     <textarea
                       value={tempProfile.bio}
                       onChange={(e) => handleInputChange('bio', e.target.value)}
@@ -153,34 +143,20 @@ const Profile = () => {
                       rows="3"
                       placeholder="Bio"
                     />
-                    <input
-                      type="text"
-                      value={tempProfile.location}
-                      onChange={(e) => handleInputChange('location', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500"
-                      placeholder="Location"
-                    />
-                    <input
-                      type="text"
-                      value={tempProfile.website}
-                      onChange={(e) => handleInputChange('website', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500"
-                      placeholder="Website"
-                    />
                   </div>
                 )}
 
                 {/* Action Buttons */}
-                <div className="flex justify-center md:justify-start space-x-3">
+                <div className="flex flex-wrap justify-center md:justify-start mt-4 gap-3">
                   {!isEditing ? (
                     <>
                       <button
                         onClick={handleEdit}
-                        className="bg-sky-500 text-white px-6 py-2 rounded-md hover:bg-sky-600 transition font-medium"
+                        className="w-full sm:w-auto bg-sky-500 text-white px-6 py-2 rounded-md hover:bg-sky-600 transition font-medium"
                       >
                         Edit Profile
                       </button>
-                      <button className="bg-gray-100 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-200 transition font-medium">
+                      <button className="w-full sm:w-auto bg-gray-100 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-200 transition font-medium">
                         Share Profile
                       </button>
                     </>
@@ -188,13 +164,13 @@ const Profile = () => {
                     <>
                       <button
                         onClick={handleSave}
-                        className="bg-green-500 text-white px-6 py-2 rounded-md hover:bg-green-600 transition font-medium"
+                        className="w-full sm:w-auto bg-green-500 text-white px-6 py-2 rounded-md hover:bg-green-600 transition font-medium"
                       >
                         Save Changes
                       </button>
                       <button
                         onClick={handleCancel}
-                        className="bg-gray-500 text-white px-6 py-2 rounded-md hover:bg-gray-600 transition font-medium"
+                        className="w-full sm:w-auto bg-gray-500 text-white px-6 py-2 rounded-md hover:bg-gray-600 transition font-medium"
                       >
                         Cancel
                       </button>
@@ -210,7 +186,7 @@ const Profile = () => {
       {/* Stats Section */}
       <div className="max-w-4xl mx-auto px-4 py-8">
         <div className="bg-white rounded-xl shadow-sm p-6 mb-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
             {Object.entries(stats).map(([key, value]) => (
               <div key={key} className="text-center">
                 <div className="text-2xl font-bold text-gray-800">{value.toLocaleString()}</div>
@@ -222,25 +198,22 @@ const Profile = () => {
 
         {/* Recent Photos */}
         <div className="bg-white rounded-xl shadow-sm p-6">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-xl font-bold text-gray-800">Recent Photos</h2>
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
+            <h2 className="text-xl font-bold text-gray-800 mb-2 sm:mb-0">Recent Photos</h2>
             <button className="text-sky-500 hover:text-sky-600 font-medium">View All</button>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
             {recentPhotos.map((photo) => (
               <div key={photo.id} className="relative group cursor-pointer">
                 <img
                   src={photo.image}
                   alt={`Photo ${photo.id}`}
-                  className="w-full h-48 object-cover rounded-lg transition-transform duration-300 group-hover:scale-105"
+                  className="w-full h-40 sm:h-48 object-cover rounded-lg transition-transform duration-300 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-opacity rounded-lg flex items-center justify-center">
                   <div className="text-white opacity-0 group-hover:opacity-100 transition-opacity">
-                    <div className="flex items-center space-x-1">
-                      <span>❤️</span>
-                      <span className="font-medium">{photo.likes}</span>
-                    </div>
+                    ❤️ {photo.likes}
                   </div>
                 </div>
               </div>
@@ -248,26 +221,21 @@ const Profile = () => {
           </div>
         </div>
 
-        {/* Achievement Badges */}
+        {/* Achievements */}
         <div className="bg-white rounded-xl shadow-sm p-6 mt-8">
           <h2 className="text-xl font-bold text-gray-800 mb-6">Achievements</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="text-center p-4 bg-yellow-50 rounded-lg">
-              <div className="text-2xl mb-2">🏆</div>
-              <div className="text-sm font-medium text-gray-700">Top Contributor</div>
-            </div>
-            <div className="text-center p-4 bg-blue-50 rounded-lg">
-              <div className="text-2xl mb-2">📸</div>
-              <div className="text-sm font-medium text-gray-700">Photo Master</div>
-            </div>
-            <div className="text-center p-4 bg-green-50 rounded-lg">
-              <div className="text-2xl mb-2">🌟</div>
-              <div className="text-sm font-medium text-gray-700">Rising Star</div>
-            </div>
-            <div className="text-center p-4 bg-purple-50 rounded-lg">
-              <div className="text-2xl mb-2">❤️</div>
-              <div className="text-sm font-medium text-gray-700">Most Liked</div>
-            </div>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            {[
+              ['🏆', 'Top Contributor'],
+              ['📸', 'Photo Master'],
+              ['🌟', 'Rising Star'],
+              ['❤️', 'Most Liked']
+            ].map(([emoji, label]) => (
+              <div key={label} className="text-center p-4 bg-gray-50 rounded-lg">
+                <div className="text-2xl mb-2">{emoji}</div>
+                <div className="text-sm font-medium text-gray-700">{label}</div>
+              </div>
+            ))}
           </div>
         </div>
       </div>

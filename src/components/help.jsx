@@ -8,15 +8,20 @@ const Help = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 px-4 py-10">
-      <div className="text-center text-3xl font-bold text-indigo-700 mb-10">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-pink-50 to-purple-100 px-4 py-10">
+      {/* Title */}
+      <div className="text-center text-2xl sm:text-3xl font-bold text-sky-600 mb-8 sm:mb-10 drop-shadow-sm">
         <h1>Contact Us</h1>
       </div>
 
-      <div className="max-w-4xl mx-auto bg-white shadow-xl rounded-xl p-8">
-        <h3 className="text-2xl font-semibold mb-6 text-center text-gray-800">Send Us a Message</h3>
+      {/* Form Card */}
+      <div className="w-full max-w-4xl mx-auto bg-white bg-opacity-90 backdrop-blur-md shadow-lg rounded-2xl px-6 py-8 sm:px-10 sm:py-10 border border-gray-200">
+        <h3 className="text-xl sm:text-2xl font-semibold mb-6 text-center text-gray-700">
+          Send Us a Message
+        </h3>
 
         <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-6">
+          {/* Name */}
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
               Name
@@ -25,12 +30,13 @@ const Help = () => {
               type="text"
               id="name"
               name="name"
-              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-300 bg-white shadow-sm text-sm sm:text-base"
               placeholder="Enter your name"
               required
             />
           </div>
 
+          {/* Email */}
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
               Email
@@ -39,12 +45,13 @@ const Help = () => {
               type="email"
               id="email"
               name="email"
-              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-300 bg-white shadow-sm text-sm sm:text-base"
               placeholder="Enter your email"
               required
             />
           </div>
 
+          {/* Message */}
           <div>
             <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
               Message
@@ -53,16 +60,17 @@ const Help = () => {
               id="message"
               name="message"
               rows="5"
-              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-300 bg-white shadow-sm text-sm sm:text-base"
               placeholder="Write your message"
               required
             />
           </div>
 
+          {/* Submit Button */}
           <div className="text-center">
             <button
               type="submit"
-              className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-6 py-3 rounded-md transition"
+              className="bg-sky-400 hover:bg-sky-500 text-white font-semibold px-6 py-3 rounded-full shadow-md transition duration-300 text-sm sm:text-base"
             >
               Send Message
             </button>

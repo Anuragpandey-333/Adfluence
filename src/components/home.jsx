@@ -211,10 +211,53 @@ const Home = () => {
   const sendMessageToAI = async (message) => {
     return new Promise((resolve) => {
       setTimeout(() => {
-        resolve(`AI Response to: "${message}"`);
-      }, 1500);
+        const cleanedMsg = message.trim().toLowerCase();
+  
+        if (['hi', 'hi.', 'hi...', 'hello'].includes(cleanedMsg)) {
+          resolve('hello 😊 how can I help you?');
+        } else if (cleanedMsg.includes('how are you')) {
+          resolve('I am fine, thank you! 😊');
+        } else if (cleanedMsg.includes('help')) {
+          resolve('Please drop your message on the Contact Us page — we’ll get in touch soon!');
+        } else if (
+          cleanedMsg.includes('weather') ||
+          cleanedMsg.includes('whether') || 
+          cleanedMsg.includes('how is the weather')
+        ) {
+          resolve('It’s nice and sunny today ☀️');
+        } else if (
+          cleanedMsg.includes('not able to login') ||
+          cleanedMsg.includes('can\'t login') ||
+          cleanedMsg.includes('login issue') ||
+          cleanedMsg.includes('unable to login')
+        ) {
+          resolve('Please check the email or password that you have entered.');
+        } else if (
+          cleanedMsg === 'thank you' ||
+          cleanedMsg === 'thanks' ||
+          cleanedMsg === 'thankyou'
+        ) {
+          resolve('Ok, thank you! 🙏');
+        } else if (cleanedMsg.includes('how can i post')) {
+          resolve(`Thanks! If you want to create a social media feed like Instagram (where users can post photos with captions), here’s a step-by-step breakdown tailored to your needs — using React for frontend and (optionally) Firebase or Node.js backend.`);
+        } else if (cleanedMsg.includes('how can i comment')) {
+          resolve(`If you want to add a comment feature like Instagram to your social media app (built with React), here's exactly how you can do it:\n\nFeatures:\n- Users can write and submit comments under each post\n- All comments show up in a list under the post\n- Each comment is tied to a specific post`);
+        } else if (
+          cleanedMsg.includes('how to increase followers') ||
+          cleanedMsg.includes('how can i increase followers')
+        ) {
+          resolve(`To increase followers on Instagram genuinely and sustainably, you need a mix of smart content strategy, consistency, and engagement. Here's a full breakdown:`);
+        } else {
+          resolve('This is a predefined response from Adfluence AI.');
+        }
+      }, 1000);
     });
   };
+  
+
+  
+  
+  
 
   // Chatbot submit handler
   const handleChatSubmit = async (e) => {
@@ -235,31 +278,43 @@ const Home = () => {
   const NavItem = ({ href, children, isActive = false, className = '' }) => (
     <a
       href={href}
-      className={`transition-colors duration-300 hover:text-sky-500 ${
-        isActive ? 'text-sky-500 font-semibold' : isDarkMode ? 'text-gray-300' : 'text-gray-700'
+      className={`transition-all duration-300 hover:text-sky-400 hover:scale-105 transform relative group ${
+        isActive ? 'text-sky-400 font-semibold' : isDarkMode ? 'text-gray-300' : 'text-gray-700'
       } ${className}`}
     >
       {children}
+      {isActive && (
+        <div className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-sky-400 to-purple-500 rounded-full"></div>
+      )}
+      <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-sky-400 to-purple-500 rounded-full transition-all duration-300 group-hover:w-full"></div>
     </a>
   );
 
   return (
     <div
-      className={`min-h-screen transition-colors duration-300 ${
-        isDarkMode ? 'bg-gray-900' : 'bg-blue-50'
+      className={`min-h-screen transition-all duration-500 ${
+        isDarkMode 
+          ? 'bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900' 
+          : 'bg-gradient-to-br from-blue-50 via-white to-purple-50'
       }`}
     >
       <nav
-        className={`fixed w-full top-0 left-0 z-50 shadow-sm flex justify-between items-center px-6 py-4 border-b transition-colors duration-300 ${
-          isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
+        className={`fixed w-full top-0 left-0 z-50 backdrop-blur-md flex justify-between items-center px-6 py-4 border-b transition-all duration-300 ${
+          isDarkMode 
+            ? 'bg-gray-800/80 border-gray-700/50 shadow-lg shadow-purple-500/10' 
+            : 'bg-white/80 border-gray-200/50 shadow-lg shadow-sky-500/10'
         }`}
       >
-        <h1 className="text-xl md:text-2xl font-bold text-sky-500">Adfluence</h1>
+        <h1 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-sky-500 to-purple-600 bg-clip-text text-transparent animate-pulse">
+          Adfluence
+        </h1>
         <div className="flex items-center space-x-4 text-sm md:text-base">
           <button
             onClick={toggleDarkMode}
-            className={`p-2 rounded-lg transition-all duration-300 ${
-              isDarkMode ? 'bg-gray-700 hover:bg-gray-600 text-yellow-400' : 'bg-gray-100 hover:bg-gray-200 text-gray-600'
+            className={`p-2 rounded-full transition-all duration-300 transform hover:scale-110 hover:rotate-12 ${
+              isDarkMode 
+                ? 'bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-300 hover:to-orange-400 text-gray-900' 
+                : 'bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white'
             }`}
             title={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
           >
@@ -272,16 +327,20 @@ const Home = () => {
           <NavItem href="/profile">Profile</NavItem>
           <NavItem
             href="/help"
-            className={`px-3 py-1 rounded-md ${
-              isDarkMode ? 'bg-sky-900 hover:bg-sky-800 text-sky-300' : 'bg-sky-100 hover:bg-sky-200 text-sky-600'
+            className={`px-4 py-2 rounded-full transition-all duration-300 transform hover:scale-105 ${
+              isDarkMode 
+                ? 'bg-gradient-to-r from-sky-600 to-purple-600 hover:from-sky-500 hover:to-purple-500 text-white shadow-lg' 
+                : 'bg-gradient-to-r from-sky-100 to-purple-100 hover:from-sky-200 hover:to-purple-200 text-sky-700 shadow-md'
             }`}
           >
             Help
           </NavItem>
           <NavItem
             href="/login"
-            className={`px-3 py-1 rounded-md ${
-              isDarkMode ? 'bg-red-900 hover:bg-red-800 text-red-300' : 'bg-red-100 hover:bg-red-200 text-red-600'
+            className={`px-4 py-2 rounded-full transition-all duration-300 transform hover:scale-105 ${
+              isDarkMode 
+                ? 'bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-500 hover:to-pink-500 text-white shadow-lg' 
+                : 'bg-gradient-to-r from-red-100 to-pink-100 hover:from-red-200 hover:to-pink-200 text-red-700 shadow-md'
             }`}
           >
             Logout
@@ -290,27 +349,43 @@ const Home = () => {
       </nav>
 
       <header
-        className={`text-white py-12 text-center mt-16 transition-colors duration-300 ${
-          isDarkMode ? 'bg-sky-600' : 'bg-sky-500'
+        className={`text-white py-16 text-center mt-16 relative overflow-hidden ${
+          isDarkMode 
+            ? 'bg-gradient-to-r from-sky-600 via-purple-600 to-pink-600' 
+            : 'bg-gradient-to-r from-sky-500 via-blue-500 to-purple-600'
         }`}
       >
-        <h2 className="text-4xl font-bold mb-2">Welcome to Adfluence</h2>
-        <p className="text-md">Explore curated and live photos of travel, sports, and nature 🌍</p>
+        <div className="absolute inset-0 bg-white/10 backdrop-blur-sm"></div>
+        <div className="absolute inset-0">
+          <div className="absolute top-10 left-10 w-20 h-20 bg-white/20 rounded-full animate-bounce"></div>
+          <div className="absolute bottom-10 right-10 w-16 h-16 bg-white/20 rounded-full animate-bounce delay-300"></div>
+          <div className="absolute top-1/2 left-1/4 w-12 h-12 bg-white/20 rounded-full animate-ping"></div>
+        </div>
+        <div className="relative z-10">
+          <h2 className="text-5xl font-bold mb-4 animate-fadeInUp">
+            Welcome to Adfluence
+          </h2>
+          <p className="text-lg animate-fadeInUp delay-200 opacity-90">
+            Explore curated and live photos of travel, sports, and nature 🌍✨
+          </p>
+        </div>
       </header>
 
       <main className="max-w-2xl mx-auto px-4 py-10">
-        <div className="flex justify-center space-x-3 mb-6 flex-wrap">
+        <div className="flex justify-center space-x-3 mb-8 flex-wrap">
           {['All', 'Travel', 'Sports', 'Nature'].map((label) => {
             const value = label.toLowerCase();
             return (
               <button
                 key={label}
                 onClick={() => handleTopicChange(value)}
-                className={`px-4 py-1 rounded-full text-sm font-medium border transition-all duration-300 ${
+                className={`px-6 py-2 rounded-full text-sm font-medium border transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 ${
                   topic === value
-                    ? 'bg-sky-500 text-white border-sky-500'
-                    : `hover:bg-sky-100 ${
-                        isDarkMode ? 'bg-gray-800 text-gray-300 border-gray-600 hover:bg-gray-700' : 'bg-white text-gray-700 border-gray-300'
+                    ? 'bg-gradient-to-r from-sky-500 to-purple-600 text-white border-transparent shadow-lg shadow-sky-500/30'
+                    : `hover:shadow-lg ${
+                        isDarkMode 
+                          ? 'bg-gray-800/80 text-gray-300 border-gray-600 hover:bg-gray-700/80 backdrop-blur-sm' 
+                          : 'bg-white/80 text-gray-700 border-gray-300 hover:bg-gray-50/80 backdrop-blur-sm'
                       }`
                 }`}
               >
@@ -320,10 +395,10 @@ const Home = () => {
           })}
           <button
             onClick={() => fetchPhotos(topic === 'all' ? '' : topic)}
-            className={`px-4 py-1 rounded-full text-sm font-medium border transition-all duration-300 ${
+            className={`px-6 py-2 rounded-full text-sm font-medium border transition-all duration-300 transform hover:scale-105 hover:rotate-180 ${
               isDarkMode
-                ? 'bg-green-900 text-green-300 border-green-700 hover:bg-green-800'
-                : 'bg-green-100 text-green-700 border-green-300 hover:bg-green-200'
+                ? 'bg-gradient-to-r from-green-600 to-emerald-600 text-white border-transparent shadow-lg shadow-green-500/30'
+                : 'bg-gradient-to-r from-green-100 to-emerald-100 text-green-700 border-green-300 hover:from-green-200 hover:to-emerald-200 shadow-md'
             }`}
           >
             🔄 Refresh
@@ -331,11 +406,14 @@ const Home = () => {
         </div>
 
         {loading && (
-          <div className="text-center py-8">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-sky-500 mx-auto"></div>
+          <div className="text-center py-12">
+            <div className="relative">
+              <div className="animate-spin rounded-full h-16 w-16 border-4 border-transparent border-t-sky-500 border-r-purple-500 mx-auto"></div>
+              <div className="animate-ping absolute inset-0 rounded-full h-16 w-16 border border-sky-300 mx-auto"></div>
+            </div>
             <p
-              className={`mt-2 transition-colors duration-300 ${
-                isDarkMode ? 'text-gray-400' : 'text-gray-500'
+              className={`mt-4 text-lg animate-pulse ${
+                isDarkMode ? 'text-gray-400' : 'text-gray-600'
               }`}
             >
               Loading amazing photos...
@@ -345,86 +423,101 @@ const Home = () => {
 
         {error && (
           <div
-            className={`border rounded-lg p-4 mb-6 text-sm transition-colors duration-300 ${
-              isDarkMode ? 'bg-red-900 border-red-700 text-red-300' : 'bg-red-50 border-red-200 text-red-600'
+            className={`border rounded-xl p-6 mb-8 text-sm backdrop-blur-sm animate-fadeInUp ${
+              isDarkMode 
+                ? 'bg-red-900/50 border-red-500/50 text-red-300 shadow-lg shadow-red-500/20' 
+                : 'bg-red-50/80 border-red-200/50 text-red-600 shadow-lg shadow-red-500/10'
             }`}
           >
             {error}
           </div>
         )}
 
-        <div className="flex flex-col space-y-8">
-          {filteredPhotos.map((photo) => (
+        <div className="flex flex-col space-y-10">
+          {filteredPhotos.map((photo, index) => (
             <div
               key={photo.id}
-              className={`rounded-xl shadow-sm overflow-hidden border transition-colors duration-300 ${
-                isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
+              className={`rounded-2xl shadow-xl overflow-hidden border transition-all duration-500 transform hover:scale-[1.02] hover:-translate-y-2 backdrop-blur-sm animate-fadeInUp ${
+                isDarkMode 
+                  ? 'bg-gray-800/80 border-gray-700/50 shadow-purple-500/20' 
+                  : 'bg-white/80 border-gray-200/50 shadow-sky-500/20'
               }`}
+              style={{ animationDelay: `${index * 100}ms` }}
             >
               {photo.featured && (
                 <div
-                  className={`text-white px-3 py-1 text-xs font-medium transition-colors duration-300 ${
-                    isDarkMode ? 'bg-sky-600' : 'bg-sky-400'
+                  className={`text-white px-4 py-2 text-sm font-semibold flex items-center space-x-2 ${
+                    isDarkMode 
+                      ? 'bg-gradient-to-r from-sky-600 to-purple-600' 
+                      : 'bg-gradient-to-r from-sky-500 to-purple-500'
                   }`}
                 >
-                  ⭐ Featured
+                  <span className="animate-pulse">⭐</span>
+                  <span>Featured</span>
                 </div>
               )}
-              <img
-                src={photo.image}
-                alt={photo.description}
-                className="w-full h-80 object-cover transition-transform duration-300 hover:scale-105"
-                onError={(e) => {
-                  e.target.src =
-                    'https://via.placeholder.com/800x600/38bdf8/ffffff?text=Image+Not+Found';
-                }}
-              />
-              <div className="p-4">
+              <div className="relative overflow-hidden group">
+                <img
+                  src={photo.image}
+                  alt={photo.description}
+                  className="w-full h-80 object-cover transition-all duration-500 group-hover:scale-110"
+                  onError={(e) => {
+                    e.target.src =
+                      'https://via.placeholder.com/800x600/38bdf8/ffffff?text=Image+Not+Found';
+                  }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
+              </div>
+              <div className="p-6">
                 <h3
-                  className={`text-lg font-semibold transition-colors duration-300 ${
-                    isDarkMode ? 'text-gray-200' : 'text-gray-800'
+                  className={`text-xl font-bold mb-2 bg-gradient-to-r from-sky-600 to-purple-600 bg-clip-text text-transparent ${
+                    isDarkMode ? '' : ''
                   }`}
                 >
                   {photo.author}
                 </h3>
                 <p
-                  className={`text-sm mb-3 transition-colors duration-300 ${
-                    isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                  className={`text-sm mb-4 leading-relaxed ${
+                    isDarkMode ? 'text-gray-300' : 'text-gray-600'
                   }`}
                 >
                   {photo.description}
                 </p>
                 <button
                   onClick={() => toggleLike(photo.id)}
-                  className={`flex items-center hover:text-red-600 transition-colors duration-300 text-sm ${
-                    likedPhotos[photo.id]?.liked ? 'text-red-500' : 'text-gray-400'
+                  className={`flex items-center space-x-2 transition-all duration-300 text-sm font-medium px-4 py-2 rounded-full transform hover:scale-105 ${
+                    likedPhotos[photo.id]?.liked 
+                      ? 'text-white bg-gradient-to-r from-red-500 to-pink-500 shadow-lg shadow-red-500/30' 
+                      : `${isDarkMode ? 'text-gray-400 hover:text-red-400' : 'text-gray-500 hover:text-red-500'} hover:bg-red-50 dark:hover:bg-red-900/20`
                   }`}
                 >
-                  ❤️{' '}
-                  <span className="ml-1">
+                  <span className={likedPhotos[photo.id]?.liked ? 'animate-bounce' : ''}>❤️</span>
+                  <span>
                     {likedPhotos[photo.id]?.liked ? 'Liked' : 'Like'} ·{' '}
                     {likedPhotos[photo.id]?.count || 0}
                   </span>
                 </button>
 
-                <div className="mt-4">
+                <div className="mt-6">
                   <h4
-                    className={`text-sm font-medium mb-1 transition-colors duration-300 ${
+                    className={`text-sm font-semibold mb-3 ${
                       isDarkMode ? 'text-gray-300' : 'text-gray-700'
                     }`}
                   >
                     Comments
                   </h4>
-                  <div className="space-y-2 mb-2">
+                  <div className="space-y-3 mb-4 max-h-32 overflow-y-auto">
                     {(comments[photo.id] || []).map((comment, idx) => (
-                      <p
+                      <div
                         key={idx}
-                        className={`text-xs transition-colors duration-300 ${
-                          isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                        className={`text-sm p-3 rounded-lg backdrop-blur-sm animate-fadeInUp ${
+                          isDarkMode 
+                            ? 'bg-gray-700/50 text-gray-300 border border-gray-600/30' 
+                            : 'bg-gray-50/80 text-gray-600 border border-gray-200/50'
                         }`}
                       >
                         💬 {comment}
-                      </p>
+                      </div>
                     ))}
                   </div>
                   <form onSubmit={(e) => handleCommentSubmit(e, photo.id)}>
@@ -443,10 +536,10 @@ const Home = () => {
                           handleCommentSubmit(e, photo.id);
                         }
                       }}
-                      className={`w-full border rounded-md px-3 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-sky-400 transition-colors duration-300 ${
+                      className={`w-full border rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-sky-400 transition-all duration-300 backdrop-blur-sm ${
                         isDarkMode
-                          ? 'bg-gray-700 border-gray-600 text-gray-200 placeholder-gray-400'
-                          : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
+                          ? 'bg-gray-700/50 border-gray-600/50 text-gray-200 placeholder-gray-400'
+                          : 'bg-white/80 border-gray-300/50 text-gray-900 placeholder-gray-500'
                       }`}
                     />
                   </form>
@@ -458,73 +551,93 @@ const Home = () => {
 
         {!loading && filteredPhotos.length === 0 && (
           <div
-            className={`text-center py-8 transition-colors duration-300 ${
+            className={`text-center py-12 animate-fadeInUp ${
               isDarkMode ? 'text-gray-400' : 'text-gray-500'
             }`}
           >
-            No photos found for "{topic}". Try a different category!
+            <div className="text-6xl mb-4 animate-bounce">🔍</div>
+            <p className="text-lg">No photos found for "{topic}". Try a different category!</p>
           </div>
         )}
       </main>
 
       <footer
-        className={`text-center py-6 text-sm border-t transition-colors duration-300 ${
-          isDarkMode ? 'bg-gray-800 text-gray-400 border-gray-700' : 'bg-white text-gray-400 border-gray-200'
+        className={`text-center py-8 text-sm border-t backdrop-blur-sm ${
+          isDarkMode 
+            ? 'bg-gray-800/50 text-gray-400 border-gray-700/50' 
+            : 'bg-white/50 text-gray-500 border-gray-200/50'
         }`}
       >
-        © 2025 Adfluence. Connect. Inspire. Grow.
+        <div className="animate-pulse">
+          © 2025 Adfluence. Connect. Inspire. Grow. ✨
+        </div>
       </footer>
 
       {/* Chatbot icon button */}
       <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end space-y-2">
         {isChatOpen && (
           <div
-            className={`w-80 max-w-xs bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 flex flex-col`}
-            style={{ maxHeight: '30rem' }}
+            className={`w-80 max-w-xs backdrop-blur-md rounded-2xl shadow-2xl p-6 flex flex-col transition-all duration-500 transform animate-fadeInUp ${
+              isDarkMode 
+                ? 'bg-gray-800/90 shadow-purple-500/20 border border-gray-700/50' 
+                : 'bg-white/90 shadow-sky-500/20 border border-gray-200/50'
+            }`}
+            style={{ maxHeight: '32rem' }}
           >
-            <header className="flex justify-between items-center mb-2">
-              <h3 className="font-semibold text-gray-900 dark:text-gray-200">AI Chatbot</h3>
+            <header className="flex justify-between items-center mb-4">
+              <h3 className="font-bold text-lg bg-gradient-to-r from-sky-600 to-purple-600 bg-clip-text text-transparent">
+                AI Chatbot
+              </h3>
               <button
                 onClick={() => setIsChatOpen(false)}
-                className="text-gray-600 hover:text-gray-900 dark:hover:text-gray-400 font-bold"
+                className="text-gray-600 hover:text-gray-900 dark:hover:text-gray-400 font-bold text-xl transition-all duration-300 transform hover:rotate-90"
                 aria-label="Close chat"
               >
                 ✕
               </button>
             </header>
-            <div className="flex-1 overflow-y-auto h-64 mb-2 flex flex-col space-y-2">
+            <div className="flex-1 overflow-y-auto h-64 mb-4 flex flex-col space-y-3 scrollbar-thin scrollbar-thumb-sky-500 scrollbar-track-transparent">
               {chatMessages.length === 0 && (
-                <p className="text-gray-400 text-sm italic">Ask me anything!</p>
+                <div className="text-gray-400 text-sm italic text-center py-8 animate-pulse">
+                  Ask me anything! 🤖
+                </div>
               )}
               {chatMessages.map((msg, index) => (
                 <div
                   key={index}
-                  className={`p-2 rounded-md max-w-[85%] ${
+                  className={`p-3 rounded-2xl max-w-[85%] transition-all duration-300 animate-fadeInUp ${
                     msg.from === 'user'
-                      ? 'bg-sky-500 text-white self-end rounded-tr-none'
-                      : 'bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-200 self-start rounded-tl-none'
+                      ? 'bg-gradient-to-r from-sky-500 to-purple-600 text-white self-end rounded-tr-md shadow-lg'
+                      : 'bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-200 self-start rounded-tl-md shadow-md backdrop-blur-sm'
                   }`}
                 >
                   {msg.text}
                 </div>
               ))}
               {isChatLoading && (
-                <div className="text-gray-500 italic text-sm">AI is typing...</div>
+                <div className="text-gray-500 italic text-sm animate-pulse flex items-center space-x-2">
+                  <div className="flex space-x-1">
+                    <div className="w-2 h-2 bg-sky-500 rounded-full animate-bounce"></div>
+                    <div className="w-2 h-2 bg-sky-500 rounded-full animate-bounce delay-100"></div>
+                    <div className="w-2 h-2 bg-sky-500 rounded-full animate-bounce delay-200"></div>
+                  </div>
+                  <span>AI is typing...</span>
+                </div>
               )}
             </div>
-            <form onSubmit={handleChatSubmit} className="flex space-x-2">
+            <form onSubmit={handleChatSubmit} className="flex space-x-3">
               <input
                 type="text"
                 value={chatInput}
                 onChange={(e) => setChatInput(e.target.value)}
-                placeholder="Type your message"
-                className="flex-1 rounded border px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-sky-400 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600"
+                placeholder="Type your message..."
+                className="flex-1 rounded-xl border px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-400 transition-all duration-300 backdrop-blur-sm dark:bg-gray-700/80 dark:text-gray-200 dark:border-gray-600/50"
                 disabled={isChatLoading}
               />
               <button
                 type="submit"
                 disabled={isChatLoading}
-                className="bg-sky-500 hover:bg-sky-600 text-white px-3 rounded text-sm disabled:opacity-50"
+                className="bg-gradient-to-r from-sky-500 to-purple-600 hover:from-sky-600 hover:to-purple-700 text-white px-4 py-2 rounded-xl text-sm disabled:opacity-50 transition-all duration-300 transform hover:scale-105 shadow-lg"
               >
                 Send
               </button>
@@ -534,13 +647,42 @@ const Home = () => {
 
         <button
           onClick={() => setIsChatOpen(!isChatOpen)}
-          className="bg-sky-500 hover:bg-sky-600 rounded-full p-4 shadow-lg text-white transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-sky-400"
+          className="bg-gradient-to-r from-sky-500 to-purple-600 hover:from-sky-600 hover:to-purple-700 rounded-full p-4 shadow-2xl text-white transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-sky-400/50 transform hover:scale-110 animate-bounce"
           aria-label="Toggle chatbot"
           title={isChatOpen ? 'Close chatbot' : 'Open chatbot'}
         >
-          💬
+          <span className="text-xl">💬</span>
         </button>
       </div>
+
+      <style jsx>{`
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        .animate-fadeInUp {
+          animation: fadeInUp 0.6s ease-out forwards;
+        }
+        
+        .scrollbar-thin {
+          scrollbar-width: thin;
+        }
+        
+        .scrollbar-thumb-sky-500 {
+          scrollbar-color: #0ea5e9 transparent;
+        }
+        
+        .group:hover .group-hover:scale-110 {
+          transform: scale(1.1);
+        }
+      `}</style>
     </div>
   );
 };
