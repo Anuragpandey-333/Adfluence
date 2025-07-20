@@ -3,12 +3,12 @@ import React from 'react';
 const Help = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
+    alert('Your response has been recorded!');
     console.log('Form submitted');
   };
 
   return (
     <div className="min-h-screen bg-gray-50 px-4 py-10">
-      
       <div className="text-center text-3xl font-bold text-indigo-700 mb-10">
         <h1>Contact Us</h1>
       </div>
