@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
+import { Menu, X } from 'lucide-react';
 
 const Messages = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -8,8 +9,6 @@ const Messages = () => {
   const [newMessage, setNewMessage] = useState('');
   const [isOnline, setIsOnline] = useState({});
   const messagesEndRef = useRef(null);
-
-  // ... your contacts array (unchanged)
   const [contacts] = useState([
     {
       id: 1,
@@ -215,19 +214,47 @@ const Messages = () => {
     }).format(new Date(date));
   };
 
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const toggleMenu = () => setMenuOpen((prev) => !prev);
+
+  const navLinkClass = ({ isActive }) =>
+    isActive ? 'text-sky-500 font-medium' : 'text-gray-700 hover:text-sky-500';
+
+
   return (
     <div className="min-h-screen bg-blue-50">
       {/* Navbar */}
-      <nav className="fixed w-full top-0 left-0 z-50 bg-white shadow-sm flex justify-between items-center px-4 sm:px-6 py-3 sm:py-4 border-b">
+      <nav className="fixed w-full top-0 left-0 z-50 bg-white shadow-sm border-b px-4 sm:px-6 py-3 sm:py-4">
+      <div className="flex justify-between items-center">
         <h1 className="text-lg sm:text-2xl font-bold text-sky-500">Adfluence</h1>
+
+        {/* Desktop Links */}
         <div className="hidden sm:flex space-x-4 text-sm sm:text-base">
-          <NavLink to="/home" className={({ isActive }) => isActive ? "text-sky-500 font-medium" : "text-gray-700 hover:text-sky-500"}>Home</NavLink>
-          <NavLink to="/messages" className={({ isActive }) => isActive ? "text-sky-500 font-medium" : "text-gray-700 hover:text-sky-500"}>Messages</NavLink>
-          <NavLink to="/profile" className={({ isActive }) => isActive ? "text-sky-500 font-medium" : "text-gray-700 hover:text-sky-500"}>Profile</NavLink>
+          <NavLink to="/home" className={navLinkClass}>Home</NavLink>
+          <NavLink to="/messages" className={navLinkClass}>Messages</NavLink>
+          <NavLink to="/profile" className={navLinkClass}>Profile</NavLink>
           <NavLink to="/help" className="bg-sky-100 hover:bg-sky-200 text-sky-600 px-3 py-1 rounded-md transition">Help</NavLink>
           <NavLink to="/login" className="bg-red-100 hover:bg-red-200 text-red-600 px-3 py-1 rounded-md transition">Logout</NavLink>
         </div>
-      </nav>
+
+        {/* Mobile Toggle Button */}
+        <button className="sm:hidden text-gray-700" onClick={toggleMenu}>
+          {menuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+      </div>
+
+      {/* Mobile Menu */}
+      {menuOpen && (
+        <div className="flex flex-col mt-3 space-y-2 sm:hidden text-sm">
+          <NavLink to="/home" onClick={toggleMenu} className={navLinkClass}>Home</NavLink>
+          <NavLink to="/messages" onClick={toggleMenu} className={navLinkClass}>Messages</NavLink>
+          <NavLink to="/profile" onClick={toggleMenu} className={navLinkClass}>Profile</NavLink>
+          <NavLink to="/help" onClick={toggleMenu} className="bg-sky-100 hover:bg-sky-200 text-sky-600 px-3 py-1 rounded-md transition">Help</NavLink>
+          <NavLink to="/login" onClick={toggleMenu} className="bg-red-100 hover:bg-red-200 text-red-600 px-3 py-1 rounded-md transition">Logout</NavLink>
+        </div>
+      )}
+    </nav>
 
       {/* Layout */}
       <div className="pt-20 h-[calc(100vh-5rem)] flex flex-col sm:flex-row">

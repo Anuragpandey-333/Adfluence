@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { Menu, X } from 'lucide-react';
 
 const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -78,30 +79,53 @@ const Profile = () => {
     }));
   };
 
+  const [menuOpen, setMenuOpen] = useState(false);
+  
+    const toggleMenu = () => setMenuOpen((prev) => !prev);
+  
+    const navLinkClass = ({ isActive }) =>
+      isActive ? 'text-sky-500 font-medium' : 'text-gray-700 hover:text-sky-500';
+
   return (
     <div className="min-h-screen bg-blue-50">
-      {/* Navbar */}
-      <nav className="fixed w-full top-0 left-0 z-50 bg-white shadow-sm flex flex-wrap justify-between items-center px-4 py-3 md:px-6 border-b">
-        <h1 className="text-xl md:text-2xl font-bold text-sky-500">Adfluence</h1>
-        <div className="space-x-2 md:space-x-4 text-sm md:text-base flex flex-wrap">
-          <NavLink to="/home" className="text-gray-700 hover:text-sky-500">Home</NavLink>
-          <a href="#" className="text-gray-700 hover:text-sky-500">Messages</a>
-          <a href="#" className="text-sky-500 font-medium">Profile</a>
-          <NavLink to="/help" className="bg-sky-100 hover:bg-sky-200 text-sky-600 px-2 py-1 rounded-md transition">
-            Help
-          </NavLink>
-          <NavLink to="/login" className="bg-red-100 hover:bg-red-200 text-red-600 px-2 py-1 rounded-md transition">
-            Logout
-          </NavLink>
-        </div>
-      </nav>
+      {}
+      <nav className="fixed w-full top-0 left-0 z-50 bg-white shadow-sm border-b px-4 sm:px-6 py-3 sm:py-4">
+      <div className="flex justify-between items-center">
+        <h1 className="text-lg sm:text-2xl font-bold text-sky-500">Adfluence</h1>
 
-      {/* Profile Header */}
+        {/* Desktop Links */}
+        <div className="hidden sm:flex space-x-4 text-sm sm:text-base">
+          <NavLink to="/home" className={navLinkClass}>Home</NavLink>
+          <NavLink to="/messages" className={navLinkClass}>Messages</NavLink>
+          <NavLink to="/profile" className={navLinkClass}>Profile</NavLink>
+          <NavLink to="/help" className="bg-sky-100 hover:bg-sky-200 text-sky-600 px-3 py-1 rounded-md transition">Help</NavLink>
+          <NavLink to="/login" className="bg-red-100 hover:bg-red-200 text-red-600 px-3 py-1 rounded-md transition">Logout</NavLink>
+        </div>
+
+        {/* Mobile Toggle Button */}
+        <button className="sm:hidden text-gray-700" onClick={toggleMenu}>
+          {menuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+      </div>
+
+      {/* Mobile Menu */}
+      {menuOpen && (
+        <div className="flex flex-col mt-3 space-y-2 sm:hidden text-sm">
+          <NavLink to="/home" onClick={toggleMenu} className={navLinkClass}>Home</NavLink>
+          <NavLink to="/messages" onClick={toggleMenu} className={navLinkClass}>Messages</NavLink>
+          <NavLink to="/profile" onClick={toggleMenu} className={navLinkClass}>Profile</NavLink>
+          <NavLink to="/help" onClick={toggleMenu} className="bg-sky-100 hover:bg-sky-200 text-sky-600 px-3 py-1 rounded-md transition">Help</NavLink>
+          <NavLink to="/login" onClick={toggleMenu} className="bg-red-100 hover:bg-red-200 text-red-600 px-3 py-1 rounded-md transition">Logout</NavLink>
+        </div>
+      )}
+    </nav>
+
+      {}
       <div className="bg-gradient-to-r from-sky-400 to-blue-500 pt-24 pb-10">
         <div className="max-w-4xl mx-auto px-4">
           <div className="bg-white rounded-xl shadow-lg p-6 md:p-8">
             <div className="flex flex-col-reverse md:flex-row items-center md:items-start space-y-6 md:space-y-0 md:space-x-8">
-              {/* Avatar */}
+              {}
               <div className="relative">
                 <img
                   src={profile.avatar}
@@ -111,7 +135,7 @@ const Profile = () => {
                 <div className="absolute bottom-0 right-0 bg-green-500 w-5 h-5 md:w-6 md:h-6 rounded-full border-2 border-white"></div>
               </div>
 
-              {/* Profile Info */}
+              {}
               <div className="flex-1 text-center md:text-left w-full">
                 {!isEditing ? (
                   <>
@@ -146,7 +170,7 @@ const Profile = () => {
                   </div>
                 )}
 
-                {/* Action Buttons */}
+                {}
                 <div className="flex flex-wrap justify-center md:justify-start mt-4 gap-3">
                   {!isEditing ? (
                     <>
@@ -183,7 +207,7 @@ const Profile = () => {
         </div>
       </div>
 
-      {/* Stats Section */}
+      {}
       <div className="max-w-4xl mx-auto px-4 py-8">
         <div className="bg-white rounded-xl shadow-sm p-6 mb-8">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
@@ -195,8 +219,7 @@ const Profile = () => {
             ))}
           </div>
         </div>
-
-        {/* Recent Photos */}
+        {}
         <div className="bg-white rounded-xl shadow-sm p-6">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
             <h2 className="text-xl font-bold text-gray-800 mb-2 sm:mb-0">Recent Photos</h2>
@@ -221,7 +244,7 @@ const Profile = () => {
           </div>
         </div>
 
-        {/* Achievements */}
+        {}
         <div className="bg-white rounded-xl shadow-sm p-6 mt-8">
           <h2 className="text-xl font-bold text-gray-800 mb-6">Achievements</h2>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
@@ -240,7 +263,7 @@ const Profile = () => {
         </div>
       </div>
 
-      {/* Footer */}
+      {}
       <footer className="bg-white text-center py-6 text-gray-400 text-sm border-t">
         © 2025 Adfluence. Connect. Inspire. Grow.
       </footer>

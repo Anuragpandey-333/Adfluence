@@ -9,19 +9,19 @@ const Help = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-pink-50 to-purple-100 px-4 py-10">
-      {/* Title */}
+      {}
       <div className="text-center text-2xl sm:text-3xl font-bold text-sky-600 mb-8 sm:mb-10 drop-shadow-sm">
         <h1>Contact Us</h1>
       </div>
 
-      {/* Form Card */}
+      {}
       <div className="w-full max-w-4xl mx-auto bg-white bg-opacity-90 backdrop-blur-md shadow-lg rounded-2xl px-6 py-8 sm:px-10 sm:py-10 border border-gray-200">
         <h3 className="text-xl sm:text-2xl font-semibold mb-6 text-center text-gray-700">
           Send Us a Message
         </h3>
 
         <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-6">
-          {/* Name */}
+          {}
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
               Name
@@ -36,7 +36,7 @@ const Help = () => {
             />
           </div>
 
-          {/* Email */}
+          {}
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
               Email
@@ -51,7 +51,7 @@ const Help = () => {
             />
           </div>
 
-          {/* Message */}
+          {}
           <div>
             <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
               Message
@@ -66,7 +66,7 @@ const Help = () => {
             />
           </div>
 
-          {/* Submit Button */}
+          {}
           <div className="text-center">
             <button
               type="submit"

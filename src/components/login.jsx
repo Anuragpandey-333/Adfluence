@@ -25,7 +25,7 @@ const Login = () => {
         </h2>
 
         <form onSubmit={handleLogin} className="space-y-5 sm:space-y-6">
-          {/* Email */}
+          {}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1 sm:mb-2">Email</label>
             <div className="flex items-center bg-white border border-gray-300 rounded-lg px-3 py-2 sm:py-2.5 shadow-sm focus-within:ring-2 focus-within:ring-sky-300">
@@ -41,7 +41,7 @@ const Login = () => {
             </div>
           </div>
 
-          {/* Password */}
+          {}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1 sm:mb-2">Password</label>
             <div className="flex items-center bg-white border border-gray-300 rounded-lg px-3 py-2 sm:py-2.5 shadow-sm focus-within:ring-2 focus-within:ring-sky-300">
@@ -57,7 +57,7 @@ const Login = () => {
             </div>
           </div>
 
-          {/* Remember & Forgot */}
+          {}
           <div className="flex flex-col sm:flex-row justify-between sm:items-center text-xs sm:text-sm text-gray-600 gap-2">
             <label className="flex items-center space-x-2">
               <input type="checkbox" className="form-checkbox text-sky-500" />
@@ -68,7 +68,7 @@ const Login = () => {
             </a>
           </div>
 
-          {/* Submit Button */}
+          {}
           <button
             type="submit"
             className="w-full py-2.5 sm:py-3 bg-sky-400 hover:bg-sky-500 text-white font-semibold rounded-full shadow-md transition-all text-sm sm:text-base"
